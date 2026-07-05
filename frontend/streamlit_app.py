@@ -6,8 +6,7 @@ st.set_page_config(page_title="Career Advisor AI", page_icon="🎯")
 st.title("🎯 Career Advisor AI")
 st.caption("An explainable, affect-aware AI career advisor")
 
-API_URL = "http://localhost:8000/advise"
-
+API_URL = "https://career-advisor-ai-backend.onrender.com/advise"
 # Initialize chat history in session state
 if "messages" not in st.session_state:
     st.session_state.messages = []
