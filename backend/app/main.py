@@ -18,6 +18,7 @@ graph = build_graph()
 
 class AdviceRequest(BaseModel):
     message: str
+    history: list = []
 
 
 class AdviceResponse(BaseModel):
@@ -36,7 +37,7 @@ def health():
 def advise(request: AdviceRequest):
     initial_state = {
         "user_message": request.message,
-        "conversation_history": [],
+        "conversation_history": request.history,
         "affect": None,
         "extracted_profile": None,
         "retrieved_careers": None,

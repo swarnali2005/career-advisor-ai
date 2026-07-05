@@ -34,27 +34,35 @@ Respond with only the single label, nothing else."""
     return state
 
 def extract_profile(state: AdvisorState) -> AdvisorState:
-    prompt = f"""Extract structured career-relevant information from this message.
+    history_text = ""
+    if state.get("conversation_history"):
+        history_text = "\n".join(
+            [f"{turn['role']}: {turn['content']}" for turn in state["conversation_history"]]
+        )
+
+    prompt = f"""Extract structured career-relevant information from this conversation.
+Consider both the conversation history (for context) and the latest message (primary focus).
 Return ONLY valid JSON, no other text, in this exact format:
 
 {{
-  "skills": ["list of skills or strengths mentioned or implied"],
-  "interests": ["list of interests, subjects, or activities mentioned"],
+  "skills": ["list of skills or strengths mentioned or implied, across the whole conversation"],
+  "interests": ["list of interests, subjects, or activities mentioned, across the whole conversation"],
   "constraints": ["list of constraints like location, budget, time, education level — empty list if none mentioned"],
   "stated_goal": "any explicit career goal mentioned, or null if none"
 }}
 
-Message: "{state['user_message']}"
+Conversation history:
+{history_text if history_text else "(no prior messages)"}
+
+Latest message: "{state['user_message']}"
 """
 
     result = call_llm(prompt, temperature=0.0)
 
     try:
-        # Strip potential markdown code fences if the model adds them
         cleaned = result.strip().strip("```json").strip("```").strip()
         profile = json.loads(cleaned)
     except json.JSONDecodeError:
-        # Fallback if parsing fails — keep raw message so pipeline doesn't break
         profile = {
             "skills": [],
             "interests": [],

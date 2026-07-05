@@ -30,7 +30,14 @@ if user_input:
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             try:
-                res = requests.post(API_URL, json={"message": user_input}, timeout=60)
+                res = requests.post(
+                    API_URL,
+                    json={
+                        "message": user_input,
+                        "history": st.session_state.messages[:-1]  # exclude the just-added user message to avoid duplication
+                    },
+                    timeout=60
+                )
                 res.raise_for_status()
                 data = res.json()
 
