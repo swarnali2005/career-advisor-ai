@@ -3,7 +3,7 @@ from app.graph.graph_builder import build_graph
 graph = build_graph()
 
 initial_state = {
-    "user_message": "I'm good at math and enjoy working with data",
+    "user_message": "hi",
     "conversation_history": [],
     "is_distress": None,
     "affect": None,

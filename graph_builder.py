@@ -16,10 +16,10 @@ def distress_response(state: AdvisorState) -> AdvisorState:
     state["final_response"] = (
         "It sounds like you might be going through something really difficult right now, "
         "and I want you to know that matters more than any career question. I'm not the right "
-        "kind of support for this - please consider reaching out to someone who can help directly.\n\n"
-        "If you're in India, you can call the KIRAN Mental Health Helpline at 1800-599-0019 "
+        "kind of support for this — please consider reaching out to someone who can help directly.\n\n"
+        "If you're in India, you can call the **KIRAN Mental Health Helpline at 1800-599-0019** "
         "(toll-free, 24/7), or talk to a counselor, doctor, or someone you trust.\n\n"
-        "I'll be here for career questions whenever you're ready - there's no rush."
+        "I'll be here for career questions whenever you're ready — there's no rush."
     )
     return state
 

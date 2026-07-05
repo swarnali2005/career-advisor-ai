@@ -8,6 +8,21 @@ CHROMA_PATH = os.path.join(os.path.dirname(__file__), "..", "chroma_db")
 
 AFFECT_LABELS = ["confident", "anxious", "confused", "undecided", "neutral"]
 
+def has_sufficient_info(profile: dict) -> bool:
+    return bool(
+        profile.get("skills") or
+        profile.get("interests") or
+        profile.get("stated_goal")
+    )
+
+
+def clarify_response(state: AdvisorState) -> AdvisorState:
+    state["final_response"] = (
+        "I'd love to help you explore career options! Could you tell me a bit more — "
+        "for example, what subjects or activities you enjoy, or anything you're good at? "
+        "Even a rough idea helps me give you better suggestions."
+    )
+    return state
 
 def check_for_distress(state: AdvisorState) -> AdvisorState:
     prompt = f"""Does this message contain language suggesting the person may be in emotional distress,
