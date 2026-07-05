@@ -2,6 +2,16 @@
 
 
 
+\*\*🔗 Live Demo:\*\* \[career-advisor-ai-n5mdufdvfvevq8ynkef3pk.streamlit.app](https://career-advisor-ai-n5mdufdvfvevq8ynkef3pk.streamlit.app)
+
+\*\*⚙️ Backend API:\*\* \[career-advisor-ai-backend.onrender.com](https://career-advisor-ai-backend.onrender.com)
+
+
+
+> Note: The backend is hosted on Render's free tier, which spins down after \~15 minutes of inactivity. The first message after inactivity may take 30-60 seconds to respond while it wakes up.
+
+
+
 An explainable, affect-aware AI career advisor built with LangGraph, RAG, and LLMs (via Groq/LLaMA 3.3).
 
 
