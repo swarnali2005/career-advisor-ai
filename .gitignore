@@ -4,3 +4,5 @@ __pycache__/
 *.pyc
 .streamlit/secrets.toml
 chroma_db/
+db_30_3_text/
+*.exe
