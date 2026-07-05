@@ -3,7 +3,5 @@ __pycache__/
 .env
 *.pyc
 .streamlit/secrets.toml
-chroma_db/
 db_30_3_text/
 *.exe
-chroma_db/
