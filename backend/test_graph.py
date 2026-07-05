@@ -3,8 +3,9 @@ from app.graph.graph_builder import build_graph
 graph = build_graph()
 
 initial_state = {
-    "user_message": "I don't really understand what a data analyst actually does day to day",
+    "user_message": "I'm good at math and enjoy working with data",
     "conversation_history": [],
+    "is_distress": None,
     "affect": None,
     "extracted_profile": None,
     "retrieved_careers": None,
@@ -13,6 +14,6 @@ initial_state = {
 }
 
 result = graph.invoke(initial_state)
-print("Extracted profile:", result["extracted_profile"])
-print("Detected affect:", result["affect"])
+
+print("is_distress:", result.get("is_distress"))
 print("Response:", result["final_response"])

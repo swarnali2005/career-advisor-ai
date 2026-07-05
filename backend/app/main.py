@@ -5,10 +5,9 @@ from app.graph.graph_builder import build_graph
 
 app = FastAPI(title="Explainable Affect-Aware Career Advisor")
 
-# Allow the Streamlit frontend (running on a different port) to call this API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # fine for development; restrict this before real deployment
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -22,9 +21,9 @@ class AdviceRequest(BaseModel):
 
 
 class AdviceResponse(BaseModel):
-    affect: str
-    extracted_profile: dict
-    retrieved_careers: list
+    affect: str | None = None
+    extracted_profile: dict | None = None
+    retrieved_careers: list | None = None
     response: str
 
 
@@ -38,6 +37,7 @@ def advise(request: AdviceRequest):
     initial_state = {
         "user_message": request.message,
         "conversation_history": request.history,
+        "is_distress": None,
         "affect": None,
         "extracted_profile": None,
         "retrieved_careers": None,
@@ -48,8 +48,8 @@ def advise(request: AdviceRequest):
     result = graph.invoke(initial_state)
 
     return AdviceResponse(
-        affect=result["affect"],
-        extracted_profile=result["extracted_profile"],
-        retrieved_careers=result["retrieved_careers"],
+        affect=result.get("affect"),
+        extracted_profile=result.get("extracted_profile"),
+        retrieved_careers=result.get("retrieved_careers"),
         response=result["final_response"],
     )

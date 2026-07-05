@@ -9,6 +9,20 @@ CHROMA_PATH = os.path.join(os.path.dirname(__file__), "..", "chroma_db")
 AFFECT_LABELS = ["confident", "anxious", "confused", "undecided", "neutral"]
 
 
+def check_for_distress(state: AdvisorState) -> AdvisorState:
+    prompt = f"""Does this message contain language suggesting the person may be in emotional distress,
+expressing hopelessness, self-harm ideation, or a mental health crisis — as opposed to ordinary
+career-related stress or indecision?
+
+Message: "{state['user_message']}"
+
+Respond with only one word: YES or NO."""
+
+    result = call_llm(prompt, temperature=0.0).strip().upper()
+    state["is_distress"] = (result == "YES")
+    return state
+
+
 def detect_affect(state: AdvisorState) -> AdvisorState:
     prompt = f"""Classify the emotional/confidence state expressed in this message about career decisions.
 Choose exactly one label from this list: {", ".join(AFFECT_LABELS)}.
@@ -32,6 +46,7 @@ Respond with only the single label, nothing else."""
 
     state["affect"] = label
     return state
+
 
 def extract_profile(state: AdvisorState) -> AdvisorState:
     history_text = ""
@@ -123,6 +138,7 @@ For each career, write 1-2 sentences explaining the fit, grounded in specific fa
     explanation = call_llm(prompt, temperature=0.3)
     state["explanation"] = explanation
     return state
+
 
 def compose_response(state: AdvisorState) -> AdvisorState:
     affect = state["affect"]
